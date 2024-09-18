@@ -71,28 +71,32 @@ def locateIterTools(summ, countDepos, limit):
         if sum(i) == summ and not(itstrs.count(i)):
             itstrs.append(i)
 
+def arrFormat(arr, countDepos):
+    newArr = []
+    newArr.append("    ".join(map(lambda num: str(num)+" вклад", range(1, countDepos+1))))
+    for nums in arr:
+        newArr.append("                  ".join(map(lambda num: str(num), nums)))
+    return newArr
+
 def main():
+    global funcstrs
+    global itstrs
     try:
         summa = int(entrycSum.get())
         depos = int(entrycDepos.get())
     except:
         return
-    numsDeposStr = ""
-    for i in range(1, depos+1):
-        numsDeposStr += str(i) + " вклад    "
-    itstrs.append(numsDeposStr)
-    funcstrs.append(numsDeposStr)
-    
-    res = []
-    limit = int(summa*0.25)
-    locate(summa, depos, [], res, limit)
-    for i in funcstrs:
-        print(i)
-    locateIterTools(summa, depos, limit)
-    drawScroll()
 
+    limit = int(summa*0.25)
+    res = []
+    locate(summa, depos, [], res, limit)
+    locateIterTools(summa, depos, limit)
+    funcstrs = arrFormat(funcstrs, depos)
+    itstrs = arrFormat(itstrs, depos)
+
+    drawScroll()
 
 btn = ttk.Button(text="Разместить", command=main)
 btn.place(anchor=NW, x = 650, y = 20, height = 25, width = 100)
 
-root.mainloop()    
+root.mainloop()   
